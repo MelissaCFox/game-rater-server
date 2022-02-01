@@ -10,10 +10,15 @@ class Game(models.Model):
     est_playtime = models.PositiveIntegerField()
     age_recommendation = models.PositiveBigIntegerField()
     average_rating = models.FloatField()
+    ## Need to learn how to make average_rating property an aggregate of game ratings
+
+    categories = models.ManyToManyField("Category", through="GameCategory", related_name="games")
+
+    # ratings = []
+    # reviews = []
+    # images = []
 
     ## categories =
     ## ratings =
     ## reviews =
     ## images =
-
-## Need to learn how to make average_rating property an aggregate of game ratings
