@@ -1,0 +1,41 @@
+[
+    {
+        "model": "gameraterapi.game",
+        "pk": 1,
+        "fields": {
+            "title": "Gwent",
+            "description": "Build your army to crush your opponents",
+            "designer": "The Witcher",
+            "year_released": 2016,
+            "number_of_players": 1000,
+            "est_playtime": 55,
+            "age_recommendation": 13
+        }
+    },
+    {
+        "model": "gameraterapi.game",
+        "pk": 2,
+        "fields": {
+            "title": "Outer Wilds",
+            "description": "Explore the universe and solve its mysteries... but you only have 22 minutes!",
+            "designer": "Mobius",
+            "year_released": 2019,
+            "number_of_players": 750,
+            "est_playtime": 12,
+            "age_recommendation": 10
+        }
+    },
+    {
+        "model": "gameraterapi.game",
+        "pk": 3,
+        "fields": {
+            "title": "The Witcher 3: Wild Hunt",
+            "description": "Hmmm. Time to fight some monsters",
+            "designer": "CD Projeckt Red",
+            "year_released": 2016,
+            "number_of_players": 1000,
+            "est_playtime": 55,
+            "age_recommendation": 13
+        }
+    }
+]
