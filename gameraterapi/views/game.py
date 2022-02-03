@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
 from django.db.models import Count, Q
-from gameraterapi.models import Game, Category
+from gameraterapi.models import Game, Category, GameReview
 
 class GameView(ViewSet):
 
@@ -20,6 +20,8 @@ class GameView(ViewSet):
     def retrieve(self, request, pk=None):
         try:
             game=Game.objects.get(pk=pk)
+
+
             serializer = GameSerializer(game)
             return Response(serializer.data)
         except Game.DoesNotExist as ex:
@@ -67,5 +69,5 @@ class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
         fields = ('id', 'title', 'description', 'designer', 'year_released', 'number_of_players',
-                  'est_playtime', 'age_recommendation', 'categories')
-        depth = 1
+                  'est_playtime', 'age_recommendation', 'categories', 'reviews')
+        depth = 3
