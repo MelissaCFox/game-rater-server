@@ -28,7 +28,8 @@ class Game(models.Model):
                 total_rating += rating.rating
                 
             average_rating = total_rating / len(ratings)
-            return average_rating
+            rounded_average = round(average_rating, 1)
+            return rounded_average
         else:
             return "No Ratings Yet"
 
