@@ -11,8 +11,13 @@ from gameraterapi.models import GameReview, Game, Player
 class GameReviewView(ViewSet):
 
     def list(self, request):
-        reviews=GameReview.objects.all()
-  
+        player = Player.objects.get(user=request.auth.user)
+        reviews=GameReview.objects.annotate(
+            author=Count(
+                'author',
+                filter=Q(player=player))
+        )
+
         serializer=ReviewSerializer(reviews, many=True)
         return Response(serializer.data)
 
@@ -68,5 +73,5 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GameReview
-        fields = ('id', 'game', 'player', 'review', "date_time")
+        fields = ('id', 'game', 'player', 'review', "date_time", 'author')
         depth = 1

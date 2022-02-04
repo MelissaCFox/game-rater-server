@@ -3,3 +3,4 @@ from .game import GameView
 from .category import CategoryView
 from .review import GameReviewView
 from .rating import GameRatingView
+from .image import GameImageView
