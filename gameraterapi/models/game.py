@@ -23,11 +23,14 @@ class Game(models.Model):
 
         # Sum all of the ratings for the game
         total_rating = 0
-        for rating in ratings:
-            total_rating += rating.rating
-            
-        average_rating = total_rating / len(ratings)
-        return average_rating
+        if len(ratings) > 0:
+            for rating in ratings:
+                total_rating += rating.rating
+                
+            average_rating = total_rating / len(ratings)
+            return average_rating
+        else:
+            return "No Ratings Yet"
 
     # Calculate the averge and return it.
     # If you don't know how to calculate averge, Google it.
