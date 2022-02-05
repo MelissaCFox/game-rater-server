@@ -11,7 +11,15 @@ from gameraterapi.models.game_image import GameImage
 class GameView(ViewSet):
 
     def list(self, request):
-        games=Game.objects.all()
+        search_text = self.request.query_params.get('q', None)
+        if search_text is not None:
+            games=Game.objects.filter(
+                Q(title__contains=search_text) |
+                Q(description__contains=search_text) |
+                Q(designer__contains=search_text)
+            )
+        else:
+            games=Game.objects.all()
         
         serializer=GameSerializer(games, many=True)
         return Response(serializer.data)
