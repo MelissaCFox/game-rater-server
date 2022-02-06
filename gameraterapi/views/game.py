@@ -27,7 +27,7 @@ class GameView(ViewSet):
             elif order_term =="playtime":
                 games=Game.objects.order_by('est_playtime')
         else:
-            games=Game.objects.all()
+            games=Game.objects.order_by('title')
         
         serializer=GameSerializer(games, many=True)
         return Response(serializer.data)
