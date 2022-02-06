@@ -12,12 +12,20 @@ class GameView(ViewSet):
 
     def list(self, request):
         search_text = self.request.query_params.get('q', None)
+        order_term = self.request.query_params.get("order_by", None)
         if search_text is not None:
             games=Game.objects.filter(
                 Q(title__contains=search_text) |
                 Q(description__contains=search_text) |
                 Q(designer__contains=search_text)
             )
+        elif order_term is not None:
+            if order_term == "year":
+                games=Game.objects.order_by('-year_released')
+            elif order_term == 'designer':
+                games=Game.objects.order_by('designer')
+            elif order_term =="playtime":
+                games=Game.objects.order_by('est_playtime')
         else:
             games=Game.objects.all()
         
