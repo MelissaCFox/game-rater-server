@@ -14,7 +14,7 @@ class GameReviewView(ViewSet):
         player = Player.objects.get(user=request.auth.user)
         reviews=GameReview.objects.annotate(
             author=Count(
-                'author',
+                'player',
                 filter=Q(player=player))
         )
 
@@ -24,7 +24,12 @@ class GameReviewView(ViewSet):
 
     def retrieve(self, request, pk=None):
         try:
-            review=GameReview.objects.get(pk=pk)
+            player = Player.objects.get(user=request.auth.user)
+            review=GameReview.objects.annotate(
+            author=Count(
+                'player',
+                filter=Q(player=player))
+        ).get(pk=pk)
             serializer = ReviewSerializer(review)
             return Response(serializer.data)
         except GameReview.DoesNotExist as ex:
@@ -70,6 +75,8 @@ class GameReviewView(ViewSet):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    
+    author = serializers.IntegerField(default=None)
 
     class Meta:
         model = GameReview

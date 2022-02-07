@@ -5,3 +5,4 @@ class GameImage(models.Model):
     player = models.ForeignKey("Player", on_delete=models.CASCADE)
     image = models.ImageField(upload_to='gameimages', height_field=None, 
                               width_field=None, max_length=100, null=True)
+    base64 = models.TextField()

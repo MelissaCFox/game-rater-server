@@ -5,8 +5,7 @@ from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
 from django.db.models import Count, Q
-from gameraterapi.models import Game
-from gameraterapi.models.game_image import GameImage
+from gameraterapi.models import Game, Player
 
 class GameView(ViewSet):
 
@@ -46,6 +45,7 @@ class GameView(ViewSet):
 
 
     def create(self, request):
+        player = Player.objects.get(user=request.auth.user)
         game = Game.objects.create(
             title = request.data['title'],
             description = request.data['description'],
@@ -53,7 +53,8 @@ class GameView(ViewSet):
             year_released = request.data['yearReleased'],
             number_of_players = request.data['numberOfPlayers'],
             est_playtime = request.data['estPlaytime'],
-            age_recommendation = request.data['ageRecommendation']
+            age_recommendation = request.data['ageRecommendation'],
+            player = player
         )
         game.categories.set(request.data['categories'])
         
@@ -88,6 +89,6 @@ class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
         fields = ('id', 'title', 'description', 'designer', 'year_released', 'number_of_players',
-                  'est_playtime', 'age_recommendation', 'categories', 'reviews', 'average_rating',
-                  'images')
+                  'est_playtime', 'age_recommendation', 'player', 'categories', 'reviews',
+                  'average_rating', 'images')
         depth = 3

@@ -15,7 +15,7 @@ from gameraterapi.models import Game, Player, GameImage
 class GameImageView(ViewSet):
 
     def list(self, request):
-        images=GameImage.objects.all()
+        images=GameImage.objects.order_by('-pk')
         
         serializer=GameImageSerializer(images, many=True)
         return Response(serializer.data)
@@ -42,7 +42,8 @@ class GameImageView(ViewSet):
         image = GameImage.objects.create(
             game = game,
             player = player,
-            image = data
+            image = data,
+            base64 = request.data['image']
         )
         
         serializer = GameImageSerializer(image)
@@ -53,5 +54,5 @@ class GameImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GameImage
-        fields = ('id', 'game', 'player', 'image')
+        fields = ('id', 'game', 'player', 'image', 'base64')
         depth = 1

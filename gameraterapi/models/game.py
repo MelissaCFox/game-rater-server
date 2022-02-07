@@ -11,6 +11,8 @@ class Game(models.Model):
     number_of_players = models.PositiveIntegerField()
     est_playtime = models.PositiveIntegerField()
     age_recommendation = models.PositiveBigIntegerField()
+    player = models.ForeignKey("Player", on_delete=models.CASCADE)
+
 
     categories = models.ManyToManyField("Category", through="GameCategory", related_name="games")
 
