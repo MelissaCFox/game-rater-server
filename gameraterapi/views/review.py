@@ -6,17 +6,17 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from django.db.models import Count, Q
+from django.contrib.auth.models import User
 from gameraterapi.models import GameReview, Game, Player
 
 class GameReviewView(ViewSet):
 
     def list(self, request):
-        player = Player.objects.get(user=request.auth.user)
-        reviews=GameReview.objects.annotate(
-            author=Count(
-                'player',
-                filter=Q(player=player))
-        )
+        player = Player.objects.get(pk=request.auth.user.id)
+        reviews=GameReview.objects.all()
+        for review in reviews:
+            review.author = review.player == player
+
 
         serializer=ReviewSerializer(reviews, many=True)
         return Response(serializer.data)
@@ -24,12 +24,9 @@ class GameReviewView(ViewSet):
 
     def retrieve(self, request, pk=None):
         try:
-            player = Player.objects.get(user=request.auth.user)
-            review=GameReview.objects.annotate(
-            author=Count(
-                'player',
-                filter=Q(player=player))
-        ).get(pk=pk)
+            player = Player.objects.get(pk=request.auth.user.id)
+            review=GameReview.objects.get(pk=pk)
+            review.author = review.player == player
             serializer = ReviewSerializer(review)
             return Response(serializer.data)
         except GameReview.DoesNotExist as ex:

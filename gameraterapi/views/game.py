@@ -6,6 +6,8 @@ from rest_framework import serializers
 from rest_framework import status
 from django.db.models import Count, Q
 from gameraterapi.models import Game, Player
+from gameraterapi.models.game_review import GameReview
+from gameraterapi.views.review import ReviewSerializer
 
 class GameView(ViewSet):
 
@@ -28,6 +30,12 @@ class GameView(ViewSet):
         else:
             games=Game.objects.order_by('title')
         
+        
+        player = Player.objects.get(pk=request.auth.user.id)
+        for game in games:
+            for review in game.reviews.all():
+                review.author = review.player == player
+        
         serializer=GameSerializer(games, many=True)
         return Response(serializer.data)
 
@@ -35,8 +43,10 @@ class GameView(ViewSet):
     def retrieve(self, request, pk=None):
         try:
             game=Game.objects.get(pk=pk)
-            # images = GameImage.objects.get(game=game)
-            # game.images = images
+
+            player = Player.objects.get(pk=request.auth.user.id)
+            for review in game.reviews.all():
+                review.author = review.player == player
 
             serializer = GameSerializer(game)
             return Response(serializer.data)
@@ -84,11 +94,13 @@ class GameView(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_400_BAD_REQUEST)
 
 
+
 class GameSerializer(serializers.ModelSerializer):
+
 
     class Meta:
         model = Game
         fields = ('id', 'title', 'description', 'designer', 'year_released', 'number_of_players',
                   'est_playtime', 'age_recommendation', 'player', 'categories', 'reviews',
                   'average_rating', 'images')
-        depth = 3
+        depth = 2
