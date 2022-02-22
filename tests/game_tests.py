@@ -210,12 +210,28 @@ class GameTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
-    # def test_get_all_games(self):
-    #     """
-    #     Ensure we can GET all games
-    #     """
-    #     url = '/games'
-    #     # Initiate GET request and capture the response
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     self.assertEqual(len(response.data), 1 )
+
+    def test_get_all_games(self):
+        """
+        Ensure we can GET all games
+        """
+        # Create a new instance of a game
+        game = Game()
+        game.title = "Clue"
+        game.description = "More fun than a Barrel Of Monkeys!"
+        game.designer = "Milton Bradley"
+        game.year_released = 1920
+        game.number_of_players = 6
+        game.est_playtime = 5
+        game.age_recommendation = 3
+        game.player_id = self.token.user_id
+
+        # Save te game to the testing database
+        game.save()
+        game.categories.set([1])
+        
+        url = '/games'
+        # Initiate GET request and capture the response
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1 )
