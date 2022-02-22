@@ -11,19 +11,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-         migrations.CreateModel(
-            name='Game',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=50)),
-                ('description', models.TextField()),
-                ('designer', models.CharField(max_length=50)),
-                ('year_released', models.PositiveIntegerField()),
-                ('number_of_players', models.PositiveIntegerField()),
-                ('est_playtime', models.PositiveIntegerField()),
-                ('age_recommendation', models.PositiveBigIntegerField()),
-            ],
-        ),
          migrations.AddField(
             model_name='game',
             name='categories',

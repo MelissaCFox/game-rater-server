@@ -32,7 +32,6 @@ class Migration(migrations.Migration):
                 ('number_of_players', models.PositiveIntegerField()),
                 ('est_playtime', models.PositiveIntegerField()),
                 ('age_recommendation', models.PositiveBigIntegerField()),
-                ('average_rating', models.FloatField()),
             ],
         ),
         migrations.CreateModel(

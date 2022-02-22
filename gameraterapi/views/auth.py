@@ -4,6 +4,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework import status
 
 from gameraterapi.models import Player
 
@@ -34,7 +35,7 @@ def login_user(request):
     else:
         # Bad login details were provided. So we can't log the user in.
         data = { 'valid': False }
-        return Response(data)
+        return Response(data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -64,4 +65,4 @@ def register_user(request):
     token = Token.objects.create(user=player.user)
     # Return the token to the client
     data = { 'token': token.key }
-    return Response(data)
+    return Response(data, status=status.HTTP_201_CREATED)
