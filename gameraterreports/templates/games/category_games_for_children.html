@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>GameRater Reports</title>
+  </head>
+  <body>
+    <h1>Categories with Kid-Friendly Games</h1>
+
+    {% for category in categorykidsgames_list %}
+        <h2>{{ category.label }}</h2>
+        <ol>
+            {% for game in category.games %}
+            <li>
+                Date: {{game.title}}
+            </br>
+                Age Recommendation: {{ game.age_recommendation}}
+            </li>
+
+            {% endfor %}
+        </ol>
+
+  </body>
+</html>
