@@ -8,18 +8,18 @@
   <body>
     <h1>Categories with Kid-Friendly Games</h1>
 
-    {% for category in categorykidsgames_list %}
+     {% for category in categorykidsgames_list %}
         <h2>{{ category.label }}</h2>
-        <ol>
+        <ul>
             {% for game in category.games %}
             <li>
-                Date: {{game.title}}
-            </br>
-                Age Recommendation: {{ game.age_recommendation}}
+                {{game.title}} (age {{ game.age_recommendation}}+ )
             </li>
-
             {% endfor %}
-        </ol>
+
+        </ul>
+    {% endfor %}
+
 
   </body>
 </html>
